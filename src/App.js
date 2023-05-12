@@ -1,8 +1,12 @@
 import React from "react";
-import "./App.css";
+import HomeScreen from "./pages/Home/HomeScreen";
 
 function App() {
-  return <div className="App">BUILD netflix</div>;
+  return (
+    <div className="App">
+      <HomeScreen />
+    </div>
+  );
 }
 
 export default App;
