@@ -18,7 +18,7 @@ const SignupScreen = () => {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
     } catch (error) {
-      console.log(error);
+      alert(error.meessage);
     }
   };
 
@@ -30,7 +30,7 @@ const SignupScreen = () => {
       const res = await signInWithEmailAndPassword(auth, email, password);
       console.log(res);
     } catch (error) {
-      console.log(error);
+      alert(error.meessage);
     }
   };
 
