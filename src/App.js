@@ -7,68 +7,49 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./features/userSlice";
 import ProfileScreen from "./pages/Profile/ProfileScreen";
 import {
-  Router,
   Route,
   Routes,
-  createBrowserRouter,
-  RouterProvider,
   BrowserRouter,
   Navigate,
+  Router,
 } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 function App() {
   // const user = useSelector((state) => state.user.user);
   const user = useSelector(selectUser);
-  console.log(user);
   const dispatch = useDispatch();
-  useEffect(() => {
-    const unsub = auth.onAuthStateChanged((userAuth) => {
-      if (userAuth) {
-        // Logged in
-        dispatch(
-          login({
-            uid: userAuth.uid,
-            email: userAuth.email,
-          })
-        );
-      } else {
-        // Logged out
-        dispatch(logout());
-      }
-    });
-
-    return () => {
-      unsub();
-    };
-  }, [dispatch]);
-
-  const ProtectedRoute = ({ children }) => {
-    if (user) {
-      return <Navigate to="/" />;
+  auth.onAuthStateChanged((userAuth) => {
+    if (userAuth) {
+      // Logged in
+      dispatch(
+        login({
+          uid: userAuth.uid,
+          email: userAuth.email,
+        })
+      );
+    } else {
+      // Logged out
+      dispatch(logout());
     }
-    return children;
-  };
+  });
+
+  function PrivateRoute() {
+    const isAuthenticated = useSelector((state) => state.user.user);
+
+    return isAuthenticated ? (
+      <Route />
+    ) : (
+      <Navigate to="/login" replace={true} />
+    );
+  }
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route index element={<HomeScreen />} />
-            <Route
-              path="login"
-              element={
-                <ProtectedRoute>
-                  <LoginPage />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route path="profile" element={<ProfileScreen />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Router>
+        <PrivateRoute path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Router>
     </div>
   );
 }
-
 export default App;

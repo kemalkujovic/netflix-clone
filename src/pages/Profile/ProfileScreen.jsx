@@ -4,9 +4,15 @@ import Nav from "../../components/Nav/Nav";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 const ProfileScreen = () => {
   const user = useSelector(selectUser);
-  console.log(user);
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    auth.signOut();
+    navigate("/login");
+  };
   return (
     <div className="profileScreen">
       <Nav />
@@ -21,7 +27,7 @@ const ProfileScreen = () => {
             <h2>{user?.email}</h2>
             <div className="profileScreen__plans">
               <button
-                onClick={() => auth.signOut()}
+                onClick={logoutHandler}
                 className="profileScreen__signOut"
               >
                 Sign Out
