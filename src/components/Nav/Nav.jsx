@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Nav.css";
+import { Link } from "react-router-dom";
 const Nav = () => {
   const [show, handleShow] = useState(false);
   const transitionNavBar = () => {
@@ -18,16 +19,20 @@ const Nav = () => {
   return (
     <div className={`nav ${show && "nav__black"}`}>
       <div className="nav__contents">
-        <img
-          className="nav__logo"
-          src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
-          alt=""
-        />
-        <img
-          className="nav__avatar"
-          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png?20201013161117"
-          alt=""
-        />
+        <Link to="/">
+          <img
+            className="nav__logo"
+            src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
+            alt=""
+          />
+        </Link>
+        <Link to="/profile">
+          <img
+            className="nav__avatar"
+            src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png?20201013161117"
+            alt=""
+          />
+        </Link>
       </div>
     </div>
   );

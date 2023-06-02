@@ -6,9 +6,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../features/userSlice";
+
 const SignupScreen = () => {
+  const navigate = useNavigate();
   const emailRef = useRef(null);
   const passRef = useRef(null);
+  const dispatch = useDispatch();
 
   const register = async (e) => {
     e.preventDefault();
@@ -16,7 +22,6 @@ const SignupScreen = () => {
     const password = passRef.current.value;
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
     } catch (error) {
       alert(error.meessage);
     }
@@ -28,7 +33,13 @@ const SignupScreen = () => {
     e.preventDefault();
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res);
+      dispatch(
+        login({
+          uid: res.user.uid,
+          email: res.user.email,
+        })
+      );
+      navigate("/");
     } catch (error) {
       alert(error.meessage);
     }
