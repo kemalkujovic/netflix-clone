@@ -2,11 +2,9 @@ import React from "react";
 import "./LoginPage.css";
 import { useState } from "react";
 import SignupScreen from "../Signup/SignupScreen";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 const LoginPage = () => {
   const [signIn, setSignIn] = useState(false);
-  const selector = useSelector((state) => state.user.user);
+
   return (
     <div className="loginPage">
       <div className="loginPage__background">
