@@ -1,54 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import HomeScreen from "./pages/Home/HomeScreen";
 import "./App.css";
 import LoginPage from "./pages/Login/LoginPage";
-import { auth } from "./firebase";
-import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "./features/userSlice";
 import ProfileScreen from "./pages/Profile/ProfileScreen";
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-  Navigate,
-  Router,
-} from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
+import { AuthContext } from "./context/authContext";
 function App() {
-  // const user = useSelector((state) => state.user.user);
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-  auth.onAuthStateChanged((userAuth) => {
-    if (userAuth) {
-      // Logged in
-      dispatch(
-        login({
-          uid: userAuth.uid,
-          email: userAuth.email,
-        })
-      );
-    } else {
-      // Logged out
-      dispatch(logout());
+  const { currentUser } = useContext(AuthContext);
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/login" />;
     }
-  });
-
-  function PrivateRoute() {
-    const isAuthenticated = useSelector((state) => state.user.user);
-
-    return isAuthenticated ? (
-      <Route />
-    ) : (
-      <Navigate to="/login" replace={true} />
-    );
-  }
-
+    return children;
+  };
   return (
     <div className="App">
-      <Router>
-        <PrivateRoute path="/" element={<HomeScreen />} />
-        <Route path="/login" element={<LoginPage />} />
-      </Router>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <HomeScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfileScreen />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

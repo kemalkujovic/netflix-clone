@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProfileScreen.css";
 import Nav from "../../components/Nav/Nav";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../features/userSlice";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 const ProfileScreen = () => {
-  const user = useSelector(selectUser);
   const navigate = useNavigate();
-
+  const { currentUser } = useContext(AuthContext);
   const logoutHandler = () => {
     auth.signOut();
     navigate("/login");
@@ -24,7 +22,7 @@ const ProfileScreen = () => {
             alt=""
           />
           <div className="profileScreen__details">
-            <h2>{user?.email}</h2>
+            <h2>{currentUser.email}</h2>
             <div className="profileScreen__plans">
               <button
                 onClick={logoutHandler}
