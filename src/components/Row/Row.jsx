@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Row.css";
-import axios from "../../axios/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilms } from "../../app/loremSlice";
+import { getFilms } from "../../app/filmsSlice";
 const Row = ({ title, fetchUrl, isLargeRow = false }) => {
   const [movies, setMovies] = useState([]);
   const base_url = "https://image.tmdb.org/t/p/original/";
@@ -11,7 +10,6 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
   useEffect(() => {
     async function fetchData() {
       const request = await dispatch(getFilms(fetchUrl));
-      console.log(request.payload.results);
       setMovies(request.payload.results);
       return request;
     }

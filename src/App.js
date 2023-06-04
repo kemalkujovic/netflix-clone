@@ -5,8 +5,6 @@ import LoginPage from "./pages/Login/LoginPage";
 import ProfileScreen from "./pages/Profile/ProfileScreen";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/authContext";
-import { useDispatch, useSelector } from "react-redux";
-import { getLorem } from "./app/loremSlice";
 function App() {
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children }) => {
