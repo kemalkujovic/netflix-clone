@@ -8,12 +8,6 @@ import { AuthContext } from "./context/authContext";
 import { useDispatch, useSelector } from "react-redux";
 import { getLorem } from "./app/loremSlice";
 function App() {
-  const dispatch = useDispatch();
-  const select = useSelector((state) => state.lorem);
-  useEffect(() => {
-    dispatch(getLorem());
-  }, []);
-
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {

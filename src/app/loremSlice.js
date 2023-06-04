@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-export const getLorem = createAsyncThunk(
-  "lorem/getData",
-  async (arg, { rejectWithValue }) => {
+export const getFilms = createAsyncThunk(
+  "films/getData",
+  async (api, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos/1"
-      );
+      const { data } = await axios.get(api);
       return data;
     } catch (error) {
       rejectWithValue(error.response.data);
@@ -14,8 +12,8 @@ export const getLorem = createAsyncThunk(
   }
 );
 
-const loremSlice = createSlice({
-  name: "lorem",
+const filmsSlice = createSlice({
+  name: "films",
   initialState: {
     data: [],
     isSuccess: false,
@@ -24,19 +22,19 @@ const loremSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [getLorem.pending]: (state, { payload }) => {
+    [getFilms.pending]: (state, { payload }) => {
       state.loading = true;
     },
-    [getLorem.fulfilled]: (state, { payload }) => {
+    [getFilms.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.data = payload;
       state.isSuccess = true;
     },
-    [getLorem.rejected]: (state, { payload }) => {
+    [getFilms.rejected]: (state, { payload }) => {
       state.message = payload;
       state.loading = false;
       state.isSuccess = false;
     },
   },
 });
-export default loremSlice;
+export default filmsSlice;

@@ -2,7 +2,7 @@
   position: relative;
   height: 100%;
   background-image: url("https://cdn.mos.cms.futurecdn.net/rDJegQJaCyGaYysj2g5XWY.jpg");
-  background-size: cover;
+  background-size: contain;
 }
 .loginScreen__logo {
   position: fixed;

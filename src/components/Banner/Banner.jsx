@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./Banner.css";
-import axios from "../../axios/axios";
 import request from "../../axios/Request";
+import { getFilms } from "../../app/loremSlice";
+import { useDispatch, useSelector } from "react-redux";
 const Banner = () => {
   const [movie, setMovie] = useState([]);
-
+  const dispatch = useDispatch();
+  const select = useSelector((state) => state.films);
   useEffect(() => {
     async function fetchData() {
-      const data = await axios.get(request.fetchNetflixOriginals);
+      const data = await dispatch(getFilms(request.fetchNetflixOriginals));
       setMovie(
-        data.data.results[
-          Math.floor(Math.random() * data.data.results.length - 1)
+        data.payload.results[
+          Math.floor(Math.random() * data.payload.results?.length - 1)
         ]
       );
       return data;
@@ -18,6 +20,19 @@ const Banner = () => {
 
     fetchData();
   }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const data = await axios.get(request.fetchNetflixOriginals);
+  //     setMovie(
+  //       data.data.results[
+  //         Math.floor(Math.random() * data.data.results.length - 1)
+  //       ]
+  //     );
+  //     return data;
+  //   }
+
+  //   fetchData();
+  // }, []);
 
   const truncate = (string, n) => {
     return string?.length > n ? string.substr(0, n - 1) + "..." : string;

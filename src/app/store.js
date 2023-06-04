@@ -3,7 +3,7 @@ import loremSlice from "./loremSlice";
 
 const store = configureStore({
   reducer: {
-    lorem: loremSlice.reducer,
+    films: loremSlice.reducer,
   },
 });
 
