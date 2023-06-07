@@ -6,7 +6,6 @@ import request from "../../axios/Request";
 import Row from "../../components/Row/Row";
 
 const HomeScreen = () => {
-  const isLoading = true;
   const rows = [
     {
       title: "NETFLIX ORIGINALS",
@@ -24,7 +23,6 @@ const HomeScreen = () => {
     { title: "Romance Movies", fetchUrl: request.fetchRomanceMovies },
     { title: "Documentaries", fetchUrl: request.fetchDocumentaries },
   ];
-  console.log("render time");
   return (
     <div className="homeScreen">
       <Nav />
