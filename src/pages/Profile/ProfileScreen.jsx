@@ -4,6 +4,7 @@ import Nav from "../../components/Nav/Nav";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
+import PlansScreen from "../Plans/PlansScreen";
 const ProfileScreen = () => {
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
@@ -25,6 +26,7 @@ const ProfileScreen = () => {
             <h2>{currentUser.email}</h2>
             <div className="profileScreen__plans">
               <h3>Plans</h3>
+              <PlansScreen />
               <button
                 onClick={logoutHandler}
                 className="profileScreen__signOut"
