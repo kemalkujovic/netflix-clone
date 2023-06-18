@@ -63,18 +63,16 @@ const PlansScreen = () => {
               priceId: priceDoc.id,
               priceData: priceDoc.data(),
             };
+            setProducts(products);
           });
-          setProducts(products);
         });
       } catch (error) {
         console.log(error.message);
       }
     };
 
-    return () => {
-      handlePlans();
-    };
-  }, []);
+    handlePlans();
+  }, [currentUser.uid]);
 
   const lastCheckout = async (priceId) => {
     try {
@@ -107,6 +105,7 @@ const PlansScreen = () => {
       console.log(error.message);
     }
   };
+  console.log(products);
   return (
     <div className="plansScreen">
       <br />
