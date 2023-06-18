@@ -127,7 +127,7 @@ const PlansScreen = () => {
           <div
             key={index}
             className={`${
-              isCurrentPackage && "plansScreen__plan--disabled"
+              isCurrentPackage && "plansScreen__plan__disabled"
             } plansScreen__plan`}
           >
             <div className="plansScreen__info">

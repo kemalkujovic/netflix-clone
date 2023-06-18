@@ -15,6 +15,6 @@
   border: none;
   cursor: pointer;
 }
-.plansScreen__plan--disabled > button {
+.plansScreen__plan__disabled > button {
   background-color: gray !important;
 }
