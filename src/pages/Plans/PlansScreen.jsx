@@ -2,12 +2,19 @@ import React, { useContext, useState } from "react";
 import "./PlansScreen.css";
 import { useEffect } from "react";
 import { db } from "../../firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { AuthContext } from "../../context/authContext";
-
+import { loadStripe } from "@stripe/stripe-js";
 const PlansScreen = () => {
   const { currentUser } = useContext(AuthContext);
-
+  console.log(currentUser.uid);
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const handlePlans = async () => {
@@ -40,24 +47,35 @@ const PlansScreen = () => {
   console.log(products);
 
   const lastCheckout = async (priceId) => {
-    const docRef = await db
-      .collection("customers")
-      .doc(currentUser.uid)
-      .collection("checkout_session")
-      .add({
+    try {
+      const checkoutSessionRef = collection(
+        db,
+        "customers",
+        currentUser.uid,
+        "checkout_sessions"
+      );
+
+      const docRef = await addDoc(checkoutSessionRef, {
         price: priceId,
         success_url: window.location.origin,
         cancel_url: window.location.origin,
       });
 
-    docRef.onSnapShot(async (snap) => {
-      const { error, sessionId } = snap.data();
-      if (error) {
-        alert(`An error occured: ${error.message}`);
-      }
-      if (sessionId) {
-      }
-    });
+      onSnapshot(docRef, async (snap) => {
+        const { error, sessionId } = snap.data();
+        if (error) {
+          alert(`An error occurred: ${error.message}`);
+        }
+        if (sessionId) {
+          const stripe = await loadStripe(
+            "pk_test_51NKJfJEZMPmOKCcjnD3PeGwuMe1Pmh8hyEevHPwBuVEJTM06nSMMj4ptyAuRhxiLXj9SBoNpZUd7w2tlm4I6IzLR00yaYBeRLA"
+          );
+          stripe.redirectToCheckout({ sessionId });
+        }
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
