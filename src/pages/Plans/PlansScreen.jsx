@@ -116,7 +116,6 @@ const PlansScreen = () => {
         </p>
       )}
       {Object.entries(products).map(([productId, productData], index) => {
-        // check if sub is active
         const isCurrentPackage = productData.name
           ?.toLowerCase()
           ?.includes(subscription?.role);
